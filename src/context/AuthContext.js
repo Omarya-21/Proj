@@ -10,8 +10,12 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // Railway backend URL - CHANGE THIS TO YOUR RAILWAY URL
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:10000';
+  // Netlify automatically sets NODE_ENV
+  // Development: http://localhost:10000
+  // Production: your Railway URL
+  const API_URL = process.env.NODE_ENV === 'development' 
+    ? 'http://localhost:10000'
+    : process.env.REACT_APP_API_URL;
 
   useEffect(() => {
     checkLoggedIn();
