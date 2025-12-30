@@ -9,8 +9,7 @@ function Register() {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-
-  const { register } = useAuth();
+  const { register } = useAuth(); // ✅ uses AuthContext
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -22,18 +21,19 @@ function Register() {
       return;
     }
 
-    if (password.length < 6) {
-      setError('Password must be at least 6 characters');
+    if (password.length < 3) {
+      setError('Password must be at least 3 characters');
       return;
     }
 
     setLoading(true);
 
     try {
-      await register(username.trim(), password);
+      // ✅ This calls AuthContext.register() which uses the correct backend URL
+      await register(username, password);
       navigate('/home');
     } catch (err) {
-      setError(err.message);
+      setError(err.message); // ✅ shows proper backend error
     } finally {
       setLoading(false);
     }
@@ -42,7 +42,6 @@ function Register() {
   return (
     <main className="register-page">
       <div className="container">
-        
         <section className="register-header">
           <h1>Register</h1>
           <p>Create a new account to start shopping</p>
@@ -50,7 +49,6 @@ function Register() {
 
         <div className="register-form-container">
           <form className="register-form" onSubmit={handleSubmit}>
-            
             {error && <div className="error-message">{error}</div>}
 
             <div className="form-group">
@@ -59,9 +57,9 @@ function Register() {
                 type="text"
                 id="username"
                 value={username}
+                onChange={(e) => setUsername(e.target.value)}
                 required
                 disabled={loading}
-                onChange={(e) => setUsername(e.target.value)}
               />
             </div>
 
@@ -71,10 +69,10 @@ function Register() {
                 type="password"
                 id="password"
                 value={password}
-                required
-                minLength={6}
-                disabled={loading}
                 onChange={(e) => setPassword(e.target.value)}
+                required
+                disabled={loading}
+                minLength="3"
               />
             </div>
 
@@ -84,27 +82,19 @@ function Register() {
                 type="password"
                 id="confirmPassword"
                 value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
                 required
                 disabled={loading}
-                onChange={(e) => setConfirmPassword(e.target.value)}
               />
             </div>
 
-            <button
-              type="submit"
-              className="register-btn"
-              disabled={loading}
-            >
+            <button type="submit" className="register-btn" disabled={loading}>
               {loading ? 'Registering...' : 'Register'}
             </button>
 
             <div className="login-link">
-              <p>
-                Already have an account?{' '}
-                <a href="/login">Login here</a>
-              </p>
+              <p>Already have an account? <a href="/login">Login here</a></p>
             </div>
-
           </form>
         </div>
       </div>
