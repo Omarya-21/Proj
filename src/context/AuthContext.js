@@ -58,21 +58,25 @@ export const AuthProvider = ({ children }) => {
     checkLoggedIn();
   }, [checkLoggedIn]);
 
-  const register = async (username, password) => {
-    const res = await fetch(`${API_URL}/api/register`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username, password })
-    });
+const register = async (username, password) => {
+  console.log('API_URL:', API_URL);
 
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.error || 'Registration failed');
+  const res = await fetch(`${API_URL}/api/register`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ username, password })
+  });
 
-    localStorage.setItem('token', data.token);
-    localStorage.setItem('user', JSON.stringify(data.user));
-    setUser(data.user);
-    return data;
-  };
+  const data = await res.json();
+  console.log('Register response:', data);
+
+  if (!res.ok) {
+    throw new Error(data.error || 'Registration failed');
+  }
+
+  localStorage.setItem('token', data.token);
+  setUser(data.user);
+};
 
   const login = async (username, password) => {
     const res = await fetch(`${API_URL}/api/login`, {
