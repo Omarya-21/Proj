@@ -42,43 +42,71 @@ function Register() {
   return (
     <main className="register-page">
       <div className="container">
-        <h1>Register</h1>
+        
+        <section className="register-header">
+          <h1>Register</h1>
+          <p>Create a new account to start shopping</p>
+        </section>
 
-        <form onSubmit={handleSubmit}>
-          {error && <div className="error-message">{error}</div>}
+        <div className="register-form-container">
+          <form className="register-form" onSubmit={handleSubmit}>
+            
+            {error && <div className="error-message">{error}</div>}
 
-          <input
-            type="text"
-            placeholder="Username"
-            value={username}
-            required
-            disabled={loading}
-            onChange={(e) => setUsername(e.target.value)}
-          />
+            <div className="form-group">
+              <label htmlFor="username">Username</label>
+              <input
+                type="text"
+                id="username"
+                value={username}
+                required
+                disabled={loading}
+                onChange={(e) => setUsername(e.target.value)}
+              />
+            </div>
 
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            required
-            minLength={6}
-            disabled={loading}
-            onChange={(e) => setPassword(e.target.value)}
-          />
+            <div className="form-group">
+              <label htmlFor="password">Password</label>
+              <input
+                type="password"
+                id="password"
+                value={password}
+                required
+                minLength={6}
+                disabled={loading}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </div>
 
-          <input
-            type="password"
-            placeholder="Confirm Password"
-            value={confirmPassword}
-            required
-            disabled={loading}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-          />
+            <div className="form-group">
+              <label htmlFor="confirmPassword">Confirm Password</label>
+              <input
+                type="password"
+                id="confirmPassword"
+                value={confirmPassword}
+                required
+                disabled={loading}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+              />
+            </div>
 
-          <button type="submit" disabled={loading}>
-            {loading ? 'Registering…' : 'Register'}
-          </button>
-        </form>
+            <button
+              type="submit"
+              className="register-btn"
+              disabled={loading}
+            >
+              {loading ? 'Registering...' : 'Register'}
+            </button>
+
+            <div className="login-link">
+              <p>
+                Already have an account?{' '}
+                <a href="/login">Login here</a>
+              </p>
+            </div>
+
+          </form>
+        </div>
       </div>
     </main>
   );
