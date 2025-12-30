@@ -10,7 +10,7 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-   const checkLoggedIn = async () => {
+   async function checkLoggedIn ()  {
     const token = localStorage.getItem('token');
     
     if (token) {
