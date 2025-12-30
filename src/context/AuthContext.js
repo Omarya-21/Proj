@@ -10,18 +10,7 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // Netlify automatically sets NODE_ENV
-  // Development: http://localhost:10000
-  // Production: your Railway URL
-  const API_URL = process.env.NODE_ENV === 'development' 
-    ? 'http://localhost:10000'
-    : process.env.REACT_APP_API_URL;
-
-  useEffect(() => {
-    checkLoggedIn();
-  }, []);
-
-  const checkLoggedIn = async () => {
+   const checkLoggedIn = async () => {
     const token = localStorage.getItem('token');
     
     if (token) {
@@ -43,6 +32,18 @@ export const AuthProvider = ({ children }) => {
     }
     setLoading(false);
   };
+  // Netlify automatically sets NODE_ENV
+  // Development: http://localhost:10000
+  // Production: your Railway URL
+  const API_URL = process.env.NODE_ENV === 'development' 
+    ? 'http://localhost:10000'
+    : process.env.REACT_APP_API_URL;
+
+  useEffect(() => {
+    checkLoggedIn();
+  }, []);
+
+ 
 
   const login = async (username, password) => {
     const response = await fetch(`${API_URL}/api/login`, {
