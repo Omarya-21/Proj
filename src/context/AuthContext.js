@@ -33,23 +33,23 @@ export const AuthProvider = ({ children }) => {
   }, [API_URL]);
 
   // ✅ This is where your fetch goes
-  const register = async (username, password) => {
-    const response = await fetch(`${API_URL}/api/register`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username, password })
-    });
+const register = async (username, password) => {
+  const response = await fetch(`${API_URL}/api/register`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ username, password })
+  });
 
-    const data = await response.json();
+  const data = await response.json();
 
-    if (!response.ok) {
-      throw new Error(data.error || 'Registration failed');
-    }
+  if (!response.ok) {
+    throw new Error(data.error || 'Registration failed');
+  }
 
-    localStorage.setItem('token', data.token);
-    setUser(data.user);
-    return data;
-  };
+  localStorage.setItem('token', data.token);
+  setUser(data.user);
+  return data;
+};
 
   const login = async (username, password) => {
     const response = await fetch(`${API_URL}/api/login`, {
